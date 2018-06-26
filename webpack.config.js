@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const NODE_ENV = process.env.NODE_ENV;
@@ -56,7 +57,7 @@ const config = {
   //   publicPath: setPublicPath(),
   //   filename: buildingForLocal() ? 'js/[name].js' : 'js/[name].[hash].js'
   // },
-  
+
   optimization:{
     runtimeChunk: false,
     splitChunks: {
@@ -73,6 +74,7 @@ const config = {
   },
   plugins: [
     extractHTML,
+    new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -142,8 +144,8 @@ const config = {
           name: '[name].[ext]?[hash]',
           useRelativePath: buildingForLocal()
         }
-      }    
+      }
     ]
   },
 };
-module.exports = config; 
+module.exports = config;
