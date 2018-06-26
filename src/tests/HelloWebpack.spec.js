@@ -1,7 +1,7 @@
 import Vue from 'vue';
 // Taken from https://vuejs.org/v2/guide/unit-testing.html
 // The path is relative to the project root.
-import MyComponent from '../../pages/HelloWebpack.vue';
+import MyComponent from '../pages/HelloWebpack.vue';
 
 describe('MyComponent', () => {
   it(`should set correct welcomeText value`, () => {
