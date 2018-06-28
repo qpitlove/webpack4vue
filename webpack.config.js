@@ -49,7 +49,7 @@ const config = {
    * You can use these too for bigger projects. For now it is 0 conf mode for me!
    */
   entry: {
-    build: path.join(setPath('src'), 'index.js'),
+    build: path.join(setPath('src'), 'index.js')
     // vendor: path.join(setPath('src'), 'vendor.js')
   },
   output: {
@@ -60,12 +60,16 @@ const config = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        commons: {
+        /* commons: {
+          name: "commons",
+          chunks: "initial",
+          minChunks: 2
+        }, */
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all'//Taken from https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
-
-        }
+        }  // Note: This downloads more code than neccessary.
       }
     }
   },

@@ -4,9 +4,9 @@
   "description": "> Webpack 4 tutorial: VueJs starter-kit, from 0 Conf to Production Mode",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production",
+    "start": "rm -rf dist && cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+    "dev": "rm -rf dist && webpack --mode development",
+    "build": "rm -rf dist && webpack --mode production",
     "http-server": "http-server dist -p 8080 -a localhost",
     "staging": "cross-env NODE_ENV=staging webpack --progress --hide-modules",
     "production-build": "Your script for build for doing extra things",
