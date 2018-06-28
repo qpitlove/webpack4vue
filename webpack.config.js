@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const NODE_ENV = process.env.NODE_ENV;
 
-const setPath = function(folderName) {
+const setPath = function (folderName) {
   return path.join(__dirname, folderName);
 }
 
@@ -48,22 +48,28 @@ const config = {
   /**
    * You can use these too for bigger projects. For now it is 0 conf mode for me!
    */
-  // entry: {
-  //   build: path.join(setPath('src'), 'main.js'),
-  //   vendor: path.join('setPath('src'), 'vendor.js')
-  // },
-  // output: {
-  //   path: buildingForLocal() ? path.resolve(__dirname) : setPath('dist'), //this one sets the path to serve
-  //   publicPath: setPublicPath(),
-  //   filename: buildingForLocal() ? 'js/[name].js' : 'js/[name].[hash].js'
-  // },
-
-  optimization:{
-    runtimeChunk: false,
+  entry: {
+    build: path.join(setPath('src'), 'index.js'),
+    // vendor: path.join(setPath('src'), 'vendor.js')
+  },
+  output: {
+    path: buildingForLocal() ? path.resolve(__dirname) : setPath('dist'), //this one sets the path to serve
+    publicPath: setPublicPath(),
+    filename: buildingForLocal() ? 'js/[name].js' : 'js/[name].[hash].js'
+  },
+  optimization: {
     splitChunks: {
-      chunks: "all", //Taken from https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'//Taken from https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+
+        }
+      }
     }
   },
+  devtool: 'source-map',
   resolveLoader: {
     modules: [setPath('node_modules')]
   },
@@ -84,13 +90,12 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         isStaging: (NODE_ENV === 'development' || NODE_ENV === 'staging'),
-        NODE_ENV: '"'+NODE_ENV+'"'
+        NODE_ENV: '"' + NODE_ENV + '"'
       }
     })
   ],
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -108,7 +113,9 @@ const config = {
         exclude: /(node_modules|bower_components)/,
         use: [{
           loader: "babel-loader",
-          options: { presets: ['env'] }
+          options: {
+            presets: ['env']
+          }
         }]
       },
       {
@@ -120,18 +127,16 @@ const config = {
       },
       {
         test: /\.scss$/,
-        use: !buildingForLocal() ?
-            [
-              MiniCssExtractPlugin.loader,
-              "css-loader", 'sass-loader'
-            ] :
-            [{
-                loader: "style-loader" // creates style nodes from JS strings
-              }, {
-                loader: "css-loader" // translates CSS into CommonJS
-              }, {
-                loader: "sass-loader" // compiles Sass to CSS
-              }]
+        use: !buildingForLocal() ? [
+          MiniCssExtractPlugin.loader,
+          "css-loader", 'sass-loader'
+        ] : [{
+          loader: "style-loader" // creates style nodes from JS strings
+        }, {
+          loader: "css-loader" // translates CSS into CommonJS
+        }, {
+          loader: "sass-loader" // compiles Sass to CSS
+        }]
       },
       {
         test: /\.svg$/,
