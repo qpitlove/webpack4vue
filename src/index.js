@@ -18,8 +18,8 @@ Vue.use(VueRouter)
 // I've used Vue resource because it was handy, you can use Axios, fetch APIs or any magic wand you want.
 Vue.use(VueResource)
 // Vue.use(Store) //Get your own vuex store from https://vuex.vuejs.org/en/
-Vue.http.interceptors.push((request, next)=> {
-  if(request.params === undefined) {
+Vue.http.interceptors.push((request, next) => {
+  if (request.params === undefined) {
     request.params = {}
   }
   request.params.someToken = 'some-token-you-might-want';
@@ -31,7 +31,7 @@ const router = new VueRouter({
 })
 
 Vue.mixin({
-  methods:  {
+  methods: {
     _veryUsefulMethod() {
       console.log('I am a global mixin. I should be used across the app.')
     }
@@ -39,7 +39,7 @@ Vue.mixin({
 })
 
 const App = new Vue({
-  el:'#app',
+  el: '#app',
   router,
   name: 'App',
   render: h => h(HelloWebpack),
@@ -48,12 +48,17 @@ const App = new Vue({
       console.log('Any method that you want to have!')
     }
   },
-  created(){
+  created() {
     console.log('App created....');
   }
 })
 
-
-
-
-
+window.addEventListener("rejectionhandled", function (e) {
+  // NOTE: e.preventDefault() must be manually called prevent the default
+  // action which is currently unset (but might be set to something in the future)
+  e.preventDefault();
+  console.error(e)
+  // NOTE: parameters are properties of the event detail property
+  // var promise = e.detail.promise;
+  // See Promise.onUnhandledRejectionHandled for parameter documentation
+});
